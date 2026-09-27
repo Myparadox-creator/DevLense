@@ -16,6 +16,7 @@
 </p>
 
 [🌟 Key Features](#-key-features) •
+[🔄 User Workflow](#-user-workflow) •
 [🏗️ System Architecture](#️-system-architecture) •
 [🚀 Quick Start](#-quick-start) •
 [🛡️ Security & Sandboxing](#️-security--sandboxing) •
@@ -61,6 +62,60 @@
     </td>
   </tr>
 </table>
+
+---
+
+## 🔄 User Workflow
+
+DevLens guides developers seamlessly from code ingestion to verified, regression-free fixes:
+
+```mermaid
+flowchart TD
+    %% Styling classes
+    classDef startNode fill:#0288d1,stroke:#01579b,stroke-width:2px,color:#ffffff;
+    classDef inputNode fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000000;
+    classDef actionNode fill:#fff8e1,stroke:#ffa000,stroke-width:2px,color:#000000;
+    classDef engineNode fill:#ede7f6,stroke:#512da8,stroke-width:2px,color:#000000;
+    classDef successNode fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000000;
+    classDef decisionNode fill:#fce4ec,stroke:#c2185b,stroke-width:2px,color:#000000;
+
+    Start(["📱 User Opens DevLens<br/>(Android App / Web / iOS)"]):::startNode
+
+    subgraph Step1["Step 1: Code Ingestion"]
+        Start --> Mode{"How does the user<br/>provide code?"}:::decisionNode
+        Mode -->|"Manual Entry"| TypeCode["Type / Paste in CodeEditor<br/>(Monospace with Line Gutters)"]:::inputNode
+        Mode -->|"Physical / Screen Scan"| SnapPhoto["Snap Photo with Camera / Gallery"]:::inputNode
+        SnapPhoto --> OCRReview["In-Memory OCR Extraction<br/>& Confidence Review Modal"]:::inputNode
+        OCRReview --> TypeCode
+        Mode -->|"Past History"| LoadHistory["Load Previous Session<br/>from History List"]:::inputNode
+        LoadHistory --> TypeCode
+    end
+
+    subgraph Step2["Step 2: Context & Action Choice"]
+        TypeCode --> SetLang["Select Language & Enter Problem Context<br/>(Python, JS, C++, Java + Constraints)"]:::inputNode
+        SetLang --> Action{"User Action"}:::decisionNode
+        Action -->|"Run in Sandbox"| SandboxRun["Live Sandboxed Execution<br/>(stdout, stderr, exit code)"]:::actionNode
+        Action -->|"Ask Copilot"| CopilotChat["Interactive AI Chat<br/>(Complexity & Optimizations)"]:::actionNode
+        Action -->|"Deep Debug"| DebugTrigger["Click 'Debug Code'<br/>(Evidence-Driven Engine)"]:::actionNode
+    end
+
+    subgraph Step3["Step 3: Automated Evidence Engine (Background)"]
+        DebugTrigger --> Pipeline["1. Multi-Layer Static Diagnostics<br/>2. Dynamic Test Case Synthesis<br/>3. Two-Tier Sandboxed Run<br/>4. Root Cause Reasoning<br/>5. Unified Diff Generation<br/>6. Regression Validation"]:::engineNode
+    end
+
+    subgraph Step4["Step 4: Diagnostic Inspection & Resolution"]
+        Pipeline --> Results["Diagnostic Result View:"]:::successNode
+        Results --> R1["🔍 Root Cause & Severity Badge"]:::inputNode
+        Results --> R2["⚡ Test Results (Passed / Failed)"]:::inputNode
+        Results --> R3["📊 Big-O Time & Space Complexity"]:::inputNode
+        Results --> R4["📝 Color-Coded Unified Diff Viewer"]:::inputNode
+        
+        R4 --> ApplyFix["User Clicks 'Apply Fix'"]:::actionNode
+        ApplyFix --> FixedWorkspace["Editor Updates with Validated Code<br/>(Zero Net Regressions Guaranteed)"]:::successNode
+    end
+
+    FixedWorkspace --> EndNode(["✅ Solved & Archived to History"]):::startNode
+```
 
 ---
 
